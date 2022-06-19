@@ -12,6 +12,7 @@ const errorHandler = ((err, req, res, next) => {
 				return el.message
 			})
 			error = sequelizeValidationError
+			detail = err.name
         	break;
 		
 		case 'SequelizeEagerLoadingError':
@@ -30,6 +31,10 @@ const errorHandler = ((err, req, res, next) => {
 			break;
 
 		case 'ReferenceError':
+			detail = err.message
+			break;
+
+		case 'Error':
 			detail = err.message
 			break;
     }
