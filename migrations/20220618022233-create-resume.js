@@ -20,7 +20,7 @@ module.exports = {
       linkedin_url: {
         type: Sequelize.STRING
       },
-      portofolio_url: {
+      portfolio_url: {
         type: Sequelize.STRING
       },
       createdAt: {
