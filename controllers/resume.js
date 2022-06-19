@@ -89,7 +89,7 @@ class ResumeController {
 		try {
 			const resumeList = await Resume.findAll({
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt']
+					exclude: [ 'createdAt', 'updatedAt', 'achievements']
 				},
 			})
 			res.status(200).json({
