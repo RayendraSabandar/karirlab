@@ -89,25 +89,28 @@ class ResumeController {
 				},
 				include:[
 					{
+						as: 'occupations',
 						model: Occupation,
 						required: true,
 						attributes: {
 						exclude: [ 'createdAt', 'updatedAt']
 						},
 						include: [
-						{
-							model: Achievement,
-							required: true,
-							attributes: {
-							exclude: [ 'createdAt', 'updatedAt']
+							{
+								as: 'occupation_achievements',
+								model: Achievement,
+								required: true,
+								attributes: {
+								exclude: [ 'createdAt', 'updatedAt']
+								},
+								where: {
+								type: 'Occupation'
+								}
 							},
-							where: {
-							type: 'Occupation'
-							}
-						},
 						]
 					},
 					{
+						as: 'achievements',
 						model: Achievement,
 						required: true,
 						attributes: {
@@ -118,6 +121,7 @@ class ResumeController {
 						}
 					},
 					{
+						as: 'educations',
 						model: Education,
 						required: true,
 						attributes: {
@@ -211,6 +215,32 @@ class ResumeController {
 			})
 		} catch (error) {
 			res.message = 'Failed to find one resume'
+			next(error)
+		}
+	}
+
+	static async deleteOneResume(req, res, next){
+		try {
+			const { resume_id } = req.params
+			const foundResume = await Resume.findByPk(resume_id)
+
+			if(!foundResume) {
+				res.status(404).json({
+					message: 'Resume not found'
+				})
+			} else {
+				await Resume.destroy({
+					where: {
+						id: resume_id
+					}
+				})
+			}
+
+			res.status(200).json({
+				message: 'Successfully deleted one resume',
+			})
+		} catch (error) {
+			res.message = 'Failed to delete one resume'
 			next(error)
 		}
 	}
