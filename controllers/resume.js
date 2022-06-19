@@ -156,20 +156,6 @@ class ResumeController {
 				attributes: {
 					exclude: [ 'createdAt', 'updatedAt']
 				},
-				include:[
-					{
-						as: 'occupations',
-						model: Occupation,
-						required: true,
-						attributes: [id],
-					},
-					{
-						as: 'educations',
-						model: Education,
-						required: true,
-						attributes: [id],
-					}
-				]
 			})
 
 			if(!foundResume) {
