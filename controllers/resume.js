@@ -70,10 +70,10 @@ class ResumeController {
 				const achievementsData = [...resumeAchievements, ...occupationAchievements]
 
 				// Create new achievements
-				await Achievement.bulkCreate(achievementsData, { transaction: t })
+				await Achievement.bulkCreate(achievementsData, { transaction: t, validate: true })
 
 				// Create new educations
-				await Education.bulkCreate(educations, { transaction: t })
+				await Education.bulkCreate(educations, { transaction: t, validate: true })
 			
 				return createdResume;
 			});
