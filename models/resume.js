@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+const phoneNumberValidator = require('../helpers/validators/phoneNumberValidator');
+const { linkedInValidator, portfolioValidator } = require('../helpers/validators/URLValidator');
 module.exports = (sequelize, DataTypes) => {
   class Resume extends Model {
     /**
@@ -18,18 +20,27 @@ module.exports = (sequelize, DataTypes) => {
   };
   Resume.init({
     name: {
+      allowNull: false,
       type: DataTypes.STRING,
       validate : {
-        notEmpty : {
+        notNull : {
           msg: 'Must enter a name'
         },
+        notEmpty : {
+          msg: 'Email cannot be empty'
+        },
+        
       }
     },
     email: {
+      allowNull: false,
       type: DataTypes.STRING,
       validate : {
+        notNull: {
+          msg: 'Must enter an email address'
+        },
         notEmpty : {
-          msg: 'Must enter an email'
+          msg: 'Email cannot be empty'
         },
         isEmail: {
           msg: 'Must be a valid email'
@@ -37,22 +48,36 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     phone_number: {
+      allowNull: false,
       type: DataTypes.STRING,
       validate : {
-        notEmpty : {
+        notNull: {
           msg: 'Must enter a phone number'
         },
-        isValidPhoneNumber(phoneNumber) {
-          const plussixtwo = /^\+([62]{2})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/
-          const zeroeight = /^\(?([0]{1})\)?[-. ]?([0-9]{3})[- ]?(\d{4})[- ]?(\d{4})$/
-          if(!plussixtwo.test(phoneNumber) && !zeroeight.test(phoneNumber)) {
-            throw new Error('Phone number must start with +62 or 0');
-          } 
+        notEmpty : {
+          msg: 'Phone number cannot be empty'
+        },
+        isValidPhoneNumber(phoneNumber){
+          phoneNumberValidator(phoneNumber)
         }
       }
     },
-    linkedin_url: DataTypes.STRING,
-    portfolio_url: DataTypes.STRING
+    linkedin_url: {
+      type: DataTypes.STRING,
+      validate: {
+        isValidURL(linkedin_url) {
+          linkedInValidator(linkedin_url)
+        }
+      }
+    },
+    portfolio_url: {
+      type: DataTypes.STRING,
+      validate: {
+        isValidURL(portfolio_url) {
+          portfolioValidator(portfolio_url)
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'Resume',

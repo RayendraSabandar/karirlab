@@ -1,5 +1,5 @@
 const { Resume, Education, Achievement, Occupation, sequelize } = require('../models')
-const { linkedInValidator, portfolioValidator } = require('../helpers/URLValidator');
+const { linkedInValidator, portfolioValidator } = require('../helpers/validators/URLValidator');
 
 class ResumeController {
 	static async createNewResume(req, res, next) {
@@ -16,10 +16,10 @@ class ResumeController {
 			} = req.body
 
 
-			const isValidLinkedinURL = linkedInValidator(linkedin_url)
-			const isValidPortfolioURL = portfolioValidator(portfolio_url)
+			// const isValidLinkedinURL = linkedInValidator(linkedin_url)
+			// const isValidPortfolioURL = portfolioValidator(portfolio_url)
 
-			if(isValidLinkedinURL && isValidPortfolioURL) {
+			// if(isValidLinkedinURL && isValidPortfolioURL) {
 				// Start transaction
 				const result = await sequelize.transaction(async (t) => {
 					// Create new resume
@@ -136,16 +136,16 @@ class ResumeController {
 					message: 'Successfully created a new resume',
 					resume: completeResume
 				})
-			} else {
-				const errorMessage = []
-				if(!isValidLinkedinURL) {
-					errorMessage.push('Must be a valid LinkedIn URL')
-				}
-				if (!isValidPortfolioURL) {
-					errorMessage.push('Must be a valid Portfolio URL')
-				}
-				throw errorMessage
-			}
+			// } else {
+			// 	const errorMessage = []
+			// 	if(!isValidLinkedinURL) {
+			// 		errorMessage.push('Must be a valid LinkedIn URL')
+			// 	}
+			// 	if (!isValidPortfolioURL) {
+			// 		errorMessage.push('Must be a valid Portfolio URL')
+			// 	}
+			// 	throw errorMessage
+			// }
 
 		} catch (error) {
 			res.message = "Failed to create new resume"
