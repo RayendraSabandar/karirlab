@@ -8,9 +8,12 @@ routes.post('/create-new-resume', ResumeController.createNewResume)
 routes.get('/get-all-resumes', ResumeController.getAllResumes)
 
 // Get Resume
+routes.get('/find-one-resume/:resume_id', ResumeController.findOneResume)
 
 // Update Resume
 // Create a middleware to go to specific services
+
 // Delete Resume
+routes.delete('/delete-one-resume/:resume_id', ResumeController.deleteOneResume)
 
 module.exports = routes
