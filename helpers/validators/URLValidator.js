@@ -12,6 +12,8 @@ function portfolioValidator(portfolio_url){
     }
 }
 
+// Coba kelarin
+
 module.exports = {
     linkedInValidator,
     portfolioValidator
