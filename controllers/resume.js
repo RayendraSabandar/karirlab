@@ -1,5 +1,4 @@
 const editChild = require('../helpers/loops/editChild');
-const updateLoops = require('../helpers/loops/editChild');
 const { Resume, Education, Occupation, sequelize } = require('../models')
 const attributes = {
 	exclude: [ 'createdAt', 'updatedAt']
