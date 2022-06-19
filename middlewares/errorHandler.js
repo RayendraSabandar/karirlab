@@ -30,6 +30,11 @@ const errorHandler = ((err, req, res, next) => {
 			detail = err.errors[0].name
 			break;
 
+		case 'TypeError':
+			error = err.message
+			detail = err.name
+			break;
+
 		case 'ReferenceError':
 			detail = err.message
 			break;
