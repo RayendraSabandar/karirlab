@@ -12,6 +12,7 @@ routes.get('/find-one-resume/:resume_id', ResumeController.findOneResume)
 
 // Update Resume
 // Create a middleware to go to specific services
+routes.put('/edit-one-resume/:resume_id', ResumeController.editOneResume)
 
 // Delete Resume
 routes.delete('/delete-one-resume/:resume_id', ResumeController.deleteOneResume)
