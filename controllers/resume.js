@@ -143,44 +143,6 @@ class ResumeController {
 				attributes: {
 					exclude: [ 'createdAt', 'updatedAt']
 				},
-				include:[
-					{
-					  model: Occupation,
-					  required: true,
-					  attributes: {
-						exclude: [ 'createdAt', 'updatedAt']
-					  },
-					  include: [
-						{
-						  model: Achievement,
-						  required: true,
-						  attributes: {
-							exclude: [ 'createdAt', 'updatedAt']
-						  },
-						  where: {
-							type: 'Occupation'
-						  }
-						},
-					  ]
-					},
-					{
-						model: Achievement,
-						required: true,
-						attributes: {
-							exclude: [ 'createdAt', 'updatedAt']
-						},
-						where: {
-							type: 'Resume'
-						}
-					},
-					{
-						model: Education,
-						required: true,
-						attributes: {
-							exclude: [ 'createdAt', 'updatedAt']
-						},
-					}
-				]
 			})
 			res.status(200).json({
 				message: "Successfully get all resumes",
