@@ -117,30 +117,6 @@ class ResumeController {
 						attributes: {
 							exclude: [ 'createdAt', 'updatedAt']
 					 	},
-						include: [
-							{
-							as: 'occupation_achievements',
-							model: Achievement,
-							required: true,
-							attributes: {
-								exclude: [ 'createdAt', 'updatedAt']
-							},
-							where: {
-								type: 'Occupation'
-							}
-							},
-						]
-					},
-					{
-						as: 'achievements',
-						model: Achievement,
-						required: true,
-						attributes: {
-							exclude: [ 'createdAt', 'updatedAt']
-						},
-						where: {
-							type: 'Resume'
-						}
 					},
 					{
 						as: 'educations',
