@@ -23,6 +23,7 @@ class ResumeController {
 					phone_number,
 					linkedin_url,
 					portfolio_url,
+					achievements
 				}, { transaction: t });
 				const resume_id = createdResume.id
 
@@ -37,40 +38,8 @@ class ResumeController {
 					return el
 				})
 
-				const resumeAchievements = achievements.map(el => {
-					const newArray = {
-						name: el,
-						type: 'Resume',
-						resume_id
-					}
-	
-					return newArray
-				})
-
 				// Create new occupations
-				const createdOccupations = await Occupation.bulkCreate(occupations, { transaction: t })
-
-				// Assign occupation id
-				var occupationAchievements = []
-				for(let i = 0; i < occupations.length; i++) {
-					const eachOccupation = occupations[i]
-					const occupation_id = createdOccupations[i].id
-					const eachOccupationAchievements = eachOccupation.occupation_achievement.map(el => {
-						const newArray = {
-							name: el,
-							type: 'Occupation',
-							occupation_id
-						}
-						return newArray
-					})
-					occupationAchievements = [...occupationAchievements, ...eachOccupationAchievements]
-				}
-				
-				// Create achievement array
-				const achievementsData = [...resumeAchievements, ...occupationAchievements]
-
-				// Create new achievements
-				await Achievement.bulkCreate(achievementsData, { transaction: t, validate: true })
+				await Occupation.bulkCreate(occupations, { transaction: t })
 
 				// Create new educations
 				await Education.bulkCreate(educations, { transaction: t, validate: true })
@@ -94,30 +63,6 @@ class ResumeController {
 						attributes: {
 						exclude: [ 'createdAt', 'updatedAt']
 						},
-						include: [
-							{
-								as: 'occupation_achievements',
-								model: Achievement,
-								required: true,
-								attributes: {
-								exclude: [ 'createdAt', 'updatedAt']
-								},
-								where: {
-								type: 'Occupation'
-								}
-							},
-						]
-					},
-					{
-						as: 'achievements',
-						model: Achievement,
-						required: true,
-						attributes: {
-							exclude: [ 'createdAt', 'updatedAt']
-						},
-						where: {
-							type: 'Resume'
-						}
 					},
 					{
 						as: 'educations',
