@@ -1,5 +1,4 @@
 const { Resume, Education, Achievement, Occupation, sequelize } = require('../models')
-const { linkedInValidator, portfolioValidator } = require('../helpers/validators/URLValidator');
 
 class ResumeController {
 	static async createNewResume(req, res, next) {
