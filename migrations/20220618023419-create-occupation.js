@@ -28,7 +28,9 @@ module.exports = {
         references: {
           model: 'Resumes',
           key: 'id'
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,

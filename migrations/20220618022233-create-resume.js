@@ -9,18 +9,21 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       phone_number: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       linkedin_url: {
         type: Sequelize.STRING
       },
-      portofolio_url: {
+      portfolio_url: {
         type: Sequelize.STRING
       },
       createdAt: {

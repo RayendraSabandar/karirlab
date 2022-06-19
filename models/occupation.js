@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Occupation.belongsTo(models.Resume, { foreignKey: 'resume_id' })
-      Occupation.hasMany(models.Achievement, { foreignKey: 'occupation_id' })
+      Occupation.belongsTo(models.Resume, { foreignKey: 'resume_id', as: 'occupations', onDelete: 'cascade', onUpdate: 'cascade' })
+      Occupation.hasMany(models.Achievement, { foreignKey: 'occupation_id', as: 'occupation_achievements', onDelete: 'cascade', onUpdate: 'cascade' })
     }
   };
   Occupation.init({
@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     occupation_status: DataTypes.STRING,
-    ResumeId: {
+    resume_id: {
       type: DataTypes.INTEGER,
     }
   }, {

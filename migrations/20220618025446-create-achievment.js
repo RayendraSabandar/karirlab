@@ -23,14 +23,18 @@ module.exports = {
         references: {
           model: 'Resumes',
           key: 'id'
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       occupation_id: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Occupations',
           key: 'id'
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       updatedAt: {
         allowNull: false,

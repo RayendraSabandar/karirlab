@@ -11,17 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Achievement.belongsTo(models.Resume, { foreignKey: 'resume_id' })
-      Achievement.belongsTo(models.Occupation, { foreignKey: 'occupation_id' })
+      Achievement.belongsTo(models.Resume, { foreignKey: 'resume_id', as: 'achievements', onDelete: 'cascade', onUpdate: 'cascade' })
+      Achievement.belongsTo(models.Occupation, { foreignKey: 'occupation_id', as: 'occupation_achievements', onDelete: 'cascade', onUpdate: 'cascade' })
     }
   };
   Achievement.init({
     name: DataTypes.STRING,
     type: DataTypes.STRING,
-    ResumeId: {
+    resume_id: {
       type: DataTypes.INTEGER,
     },
-    OccupationId: {
+    occupation_id: {
       type: DataTypes.INTEGER,
     }
   }, {

@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const educationScoreValidator = require('../helpers/validators/educationScoreValidator');
 module.exports = (sequelize, DataTypes) => {
   class Education extends Model {
     /**
@@ -11,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Education.belongsTo(models.Resume, { foreignKey: 'resume_id' })
+      Education.belongsTo(models.Resume, { foreignKey: 'resume_id', as: 'educations', onDelete: 'cascade', onUpdate: 'cascade' })
     }
   };
   Education.init({
@@ -41,14 +42,12 @@ module.exports = (sequelize, DataTypes) => {
         isFloat: {
           msg: 'Must enter a float number'
         },
-        isBetweenZeroAndFour(score){
-          if(score < 0 || score > 4) {
-            throw new Error('Must enter a score between 0 and 4')
-          }
+        isValidScore(score){
+          educationScoreValidator(score)
         }
       }
     },
-    ResumeId: {
+    resume_id: {
       type: DataTypes.INTEGER,
     }
   }, {
