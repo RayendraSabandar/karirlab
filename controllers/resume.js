@@ -149,11 +149,8 @@ class ResumeController {
 				phone_number,
 				linkedin_url,
 				portfolio_url,
-				occupations,
-				educations,
 				achievements,
 			} = req.body
-
 
 			const foundResume = await Resume.findByPk(resume_id, {
 				attributes: {
@@ -165,26 +162,6 @@ class ResumeController {
 						model: Occupation,
 						required: true,
 						attributes: [id],
-						include: [
-							{
-							as: 'occupation_achievements',
-							model: Achievement,
-							required: true,
-							attributes: [id],
-							where: {
-								type: 'Occupation'
-							}
-							},
-						]
-					},
-					{
-						as: 'achievements',
-						model: Achievement,
-						required: true,
-						attributes: [id],
-						where: {
-							type: 'Resume'
-						}
 					},
 					{
 						as: 'educations',
@@ -200,15 +177,24 @@ class ResumeController {
 					message: 'Resume not found'
 				})
 			} else {
-				const { achievements, occupations } = foundResume
-				let occupationAchievements = []
-				occupations.forEach(element => {
-					occupationAchievements = [...occupationAchievements, ...element.occupation_achievements]
-				});
-				const achievementsData = [...achievements, ...occupationAchievements]
+				const { id } = foundResume
+					const updatedResume = await Resume.update({
+						name,
+						email,
+						phone_number,
+						linkedin_url,
+						portfolio_url,
+						achievements,
+					}, {
+						returning: true,
+						where: {
+							id
+						}
+					});
+
 				res.status(200).json({
 					message: 'Successfully edited one resume',
-					resume: achievementsData
+					resume: updatedResume
 				})
 			}
 		} catch (error) {
