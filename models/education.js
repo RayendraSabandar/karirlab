@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Education.belongsTo(models.Resume, { foreignKey: 'resume_id', as: 'educations' })
+      Education.belongsTo(models.Resume, { foreignKey: 'resume_id', as: 'educations', onDelete: 'cascade', onUpdate: 'cascade' })
     }
   };
   Education.init({

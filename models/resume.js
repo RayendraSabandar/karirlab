@@ -13,9 +13,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Resume.hasMany(models.Occupation, { foreignKey: 'resume_id', as: 'occupations' })
-      Resume.hasMany(models.Achievement, { foreignKey: 'resume_id', as: 'achievements' })
-      Resume.hasMany(models.Education, { foreignKey: 'resume_id', as: 'educations' })
+      Resume.hasMany(models.Occupation, { foreignKey: 'resume_id', as: 'occupations', onDelete: 'cascade', onUpdate: 'cascade' })
+      Resume.hasMany(models.Achievement, { foreignKey: 'resume_id', as: 'achievements', onDelete: 'cascade', onUpdate: 'cascade' })
+      Resume.hasMany(models.Education, { foreignKey: 'resume_id', as: 'educations', onDelete: 'cascade', onUpdate: 'cascade' })
     }
   };
   Resume.init({
