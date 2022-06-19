@@ -153,6 +153,67 @@ class ResumeController {
 			next(error)
 		}
   	}
+
+	static async findOneResume(req, res, next) {
+		try {
+			const { resume_id }= req.params
+			const foundResume = await Resume.findByPk(resume_id, {
+				attributes: {
+					exclude: [ 'createdAt', 'updatedAt']
+				},
+				include:[
+					{
+						as: 'occupations',
+						model: Occupation,
+						required: true,
+						attributes: {
+							exclude: [ 'createdAt', 'updatedAt']
+					 	},
+						include: [
+							{
+							as: 'occupation_achievements',
+							model: Achievement,
+							required: true,
+							attributes: {
+								exclude: [ 'createdAt', 'updatedAt']
+							},
+							where: {
+								type: 'Occupation'
+							}
+							},
+						]
+					},
+					{
+						as: 'achievements',
+						model: Achievement,
+						required: true,
+						attributes: {
+							exclude: [ 'createdAt', 'updatedAt']
+						},
+						where: {
+							type: 'Resume'
+						}
+					},
+					{
+						as: 'educations',
+						model: Education,
+						required: true,
+						attributes: {
+							exclude: [ 'createdAt', 'updatedAt']
+						},
+					}
+				]
+			})
+
+			res.status(200).json({
+				message: "Successfully found one resume",
+				resume: foundResume
+			})
+		} catch (error) {
+			res.message = 'Failed to find one resume'
+			next(error)
+		}
+	}
 }
 
 module.exports = ResumeController
