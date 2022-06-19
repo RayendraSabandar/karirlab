@@ -1,5 +1,4 @@
 const ResumeController = require('../controllers/resume')
-const errorHandler = require('../middlewares/errorHandler')
 const routes = require('express').Router()
 
 // Create Resume
@@ -11,7 +10,6 @@ routes.get('/get-all-resumes', ResumeController.getAllResumes)
 routes.get('/find-one-resume/:resume_id', ResumeController.findOneResume)
 
 // Update Resume
-// Create a middleware to go to specific services
 routes.put('/edit-one-resume/:resume_id', ResumeController.editOneResume)
 
 // Delete Resume

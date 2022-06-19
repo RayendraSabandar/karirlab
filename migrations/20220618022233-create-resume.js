@@ -26,6 +26,9 @@ module.exports = {
       portfolio_url: {
         type: Sequelize.STRING
       },
+      achievements: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

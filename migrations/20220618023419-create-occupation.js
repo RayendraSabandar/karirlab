@@ -23,6 +23,9 @@ module.exports = {
       occupation_status: {
         type: Sequelize.STRING
       },
+      occupation_achievement: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
+      },
       resume_id: {
         type: Sequelize.INTEGER,
         references: {
