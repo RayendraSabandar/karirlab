@@ -15,137 +15,122 @@ class ResumeController {
 				achievements,
 			} = req.body
 
+			// Start transaction
+			const result = await sequelize.transaction(async (t) => {
+				// Create new resume
+				const createdResume = await Resume.create({
+					name,
+					email,
+					phone_number,
+					linkedin_url,
+					portfolio_url,
+				}, { transaction: t });
+				const resume_id = createdResume.id
 
-			// const isValidLinkedinURL = linkedInValidator(linkedin_url)
-			// const isValidPortfolioURL = portfolioValidator(portfolio_url)
+				// Assign resume_id
+				occupations.map(el => {
+					el.resume_id = resume_id
+					return el
+				})
 
-			// if(isValidLinkedinURL && isValidPortfolioURL) {
-				// Start transaction
-				const result = await sequelize.transaction(async (t) => {
-					// Create new resume
-					const createdResume = await Resume.create({
-						name,
-						email,
-						phone_number,
-						linkedin_url,
-						portfolio_url,
-					}, { transaction: t });
-					const resume_id = createdResume.id
+				educations.map(el => {
+					el.resume_id = resume_id
+					return el
+				})
 
-					// Assign resume_id
-					occupations.map(el => {
-						el.resume_id = resume_id
-						return el
-					})
+				const resumeAchievements = achievements.map(el => {
+					const newArray = {
+						name: el,
+						type: 'Resume',
+						resume_id
+					}
+	
+					return newArray
+				})
 
-					educations.map(el => {
-						el.resume_id = resume_id
-						return el
-					})
+				// Create new occupations
+				const createdOccupations = await Occupation.bulkCreate(occupations, { transaction: t })
 
-					const resumeAchievements = achievements.map(el => {
+				// Assign occupation id
+				var occupationAchievements = []
+				for(let i = 0; i < occupations.length; i++) {
+					const eachOccupation = occupations[i]
+					const occupation_id = createdOccupations[i].id
+					const eachOccupationAchievements = eachOccupation.occupation_achievement.map(el => {
 						const newArray = {
 							name: el,
-							type: 'Resume',
-							resume_id
+							type: 'Occupation',
+							occupation_id
 						}
-		
 						return newArray
 					})
-
-					// Create new occupations
-					const createdOccupations = await Occupation.bulkCreate(occupations, { transaction: t })
-
-					// Assign occupation id
-					var occupationAchievements = []
-					for(let i = 0; i < occupations.length; i++) {
-						const eachOccupation = occupations[i]
-						const occupation_id = createdOccupations[i].id
-						const eachOccupationAchievements = eachOccupation.occupation_achievement.map(el => {
-							const newArray = {
-								name: el,
-								type: 'Occupation',
-								occupation_id
-							}
-							return newArray
-						})
-						occupationAchievements = [...occupationAchievements, ...eachOccupationAchievements]
-					}
-					
-					// Create achievement array
-					const achievementsData = [...resumeAchievements, ...occupationAchievements]
-
-					// Create new achievements
-					await Achievement.bulkCreate(achievementsData, { transaction: t })
-
-					// Create new educations
-					await Education.bulkCreate(educations, { transaction: t })
+					occupationAchievements = [...occupationAchievements, ...eachOccupationAchievements]
+				}
 				
-					return createdResume;
-				});
+				// Create achievement array
+				const achievementsData = [...resumeAchievements, ...occupationAchievements]
 
-				// Get associated/related data
-				const completeResume = await Resume.findOne({
-					where : {
-						id: result.id
-					},
-					attributes: {
+				// Create new achievements
+				await Achievement.bulkCreate(achievementsData, { transaction: t })
+
+				// Create new educations
+				await Education.bulkCreate(educations, { transaction: t })
+			
+				return createdResume;
+			});
+
+			// Get associated/related data
+			const completeResume = await Resume.findOne({
+				where : {
+					id: result.id
+				},
+				attributes: {
+					exclude: [ 'createdAt', 'updatedAt']
+				},
+				include:[
+					{
+						model: Occupation,
+						required: true,
+						attributes: {
 						exclude: [ 'createdAt', 'updatedAt']
-					},
-					include:[
-						{
-						  model: Occupation,
-						  required: true,
-						  attributes: {
-							exclude: [ 'createdAt', 'updatedAt']
-						  },
-						  include: [
-							{
-							  model: Achievement,
-							  required: true,
-							  attributes: {
-								exclude: [ 'createdAt', 'updatedAt']
-							  },
-							  where: {
-								type: 'Occupation'
-							  }
-							},
-						  ]
 						},
+						include: [
 						{
 							model: Achievement,
 							required: true,
 							attributes: {
-								exclude: [ 'createdAt', 'updatedAt']
+							exclude: [ 'createdAt', 'updatedAt']
 							},
 							where: {
-								type: 'Resume'
+							type: 'Occupation'
 							}
 						},
-						{
-							model: Education,
-							required: true,
-							attributes: {
-								exclude: [ 'createdAt', 'updatedAt']
-							},
+						]
+					},
+					{
+						model: Achievement,
+						required: true,
+						attributes: {
+							exclude: [ 'createdAt', 'updatedAt']
+						},
+						where: {
+							type: 'Resume'
 						}
-					]
-				})
+					},
+					{
+						model: Education,
+						required: true,
+						attributes: {
+							exclude: [ 'createdAt', 'updatedAt']
+						},
+					}
+				]
+			})
 
-				res.status(201).json({
-					message: 'Successfully created a new resume',
-					resume: completeResume
-				})
-			// } else {
-			// 	const errorMessage = []
-			// 	if(!isValidLinkedinURL) {
-			// 		errorMessage.push('Must be a valid LinkedIn URL')
-			// 	}
-			// 	if (!isValidPortfolioURL) {
-			// 		errorMessage.push('Must be a valid Portfolio URL')
-			// 	}
-			// 	throw errorMessage
-			// }
+			res.status(201).json({
+				message: 'Successfully created a new resume',
+				resume: completeResume
+			})
 
 		} catch (error) {
 			res.message = "Failed to create new resume"
@@ -204,11 +189,6 @@ class ResumeController {
 		} catch (error) {
 			res.message = "Failed to get resumes"
 			next(error)
-			// console.log(error, 'error')
-			// res.status(500).json({
-			// 	message: "Failed to get resumes",
-			// 	error
-			// })
 		}
   	}
 }
