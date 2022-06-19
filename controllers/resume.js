@@ -149,13 +149,29 @@ class ResumeController {
 				phone_number,
 				linkedin_url,
 				portfolio_url,
+				occupations,
+				educations,
 				achievements,
 			} = req.body
 
 			const foundResume = await Resume.findByPk(resume_id, {
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt']
+					exclude: [ 'createdAt', 'updatedAt'],
 				},
+				include: [
+					{
+						as: 'occupations',
+						model: Occupation,
+						required: true,
+						attributes: [id]
+					},
+					{
+						as: 'educations',
+						model: Education,
+						required: true,
+						attributes: [id]
+					}
+				]
 			})
 
 			if(!foundResume) {
@@ -163,7 +179,7 @@ class ResumeController {
 					message: 'Resume not found'
 				})
 			} else {
-				const { id } = foundResume
+				const result = await sequelize.transaction(async (t) => {
 					const updatedResume = await Resume.update({
 						name,
 						email,
@@ -174,13 +190,79 @@ class ResumeController {
 					}, {
 						returning: true,
 						where: {
-							id
-						}
+							id: foundResume.id
+						},
+						transaction: t
 					});
 
+					for(let i = 0; i < occupations.length; i++) {
+						const eachOccupation = occupations[i]
+						if(eachOccupation.id) {
+							await Occupation.update(eachOccupation, {
+								returning: true,
+								where: {
+									id: eachOccupation.id
+								},
+								transaction: t
+							})
+						} else {
+							await Occupation.create({
+								...eachOccupation,
+								resume_id: foundResume.id
+							}, { transaction: t })
+						}
+					}
+
+					for(let i = 0; i < educations.length; i++) {
+						const eachEducation = educations[i]
+						if(eachEducation.id) {
+							await Occupation.update(eachEducation, {
+								returning: true,
+								where: {
+									id: eachEducation.id
+								},
+								transaction: t
+							})
+						} else {
+							await Education.create({
+								...eachEducation,
+								resume_id: foundResume.id
+							}, { transaction: t })
+						}
+					}
+
+					return updatedResume
+				})
+
+				const completeResume = await Resume.findOne({
+					where : {
+						id: result[1][0].id
+					},
+					attributes: {
+						exclude: [ 'createdAt', 'updatedAt']
+					},
+					include:[
+						{
+							as: 'occupations',
+							model: Occupation,
+							required: true,
+							attributes: {
+							exclude: [ 'createdAt', 'updatedAt']
+							},
+						},
+						{
+							as: 'educations',
+							model: Education,
+							required: true,
+							attributes: {
+								exclude: [ 'createdAt', 'updatedAt']
+							},
+						}
+					]
+				})
 				res.status(200).json({
 					message: 'Successfully edited one resume',
-					resume: updatedResume
+					resume: completeResume
 				})
 			}
 		} catch (error) {
