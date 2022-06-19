@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    ResumeId: {
+    resume_id: {
       type: DataTypes.INTEGER,
     }
   }, {

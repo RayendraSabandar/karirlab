@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     occupation_status: DataTypes.STRING,
-    ResumeId: {
+    resume_id: {
       type: DataTypes.INTEGER,
     }
   }, {

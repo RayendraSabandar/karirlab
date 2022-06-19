@@ -18,10 +18,10 @@ module.exports = (sequelize, DataTypes) => {
   Achievement.init({
     name: DataTypes.STRING,
     type: DataTypes.STRING,
-    ResumeId: {
+    resume_id: {
       type: DataTypes.INTEGER,
     },
-    OccupationId: {
+    occupation_id: {
       type: DataTypes.INTEGER,
     }
   }, {
