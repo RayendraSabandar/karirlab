@@ -23,6 +23,7 @@ class ResumeController {
 					phone_number,
 					linkedin_url,
 					portfolio_url,
+					achievements
 				}, { transaction: t });
 				const resume_id = createdResume.id
 
@@ -37,40 +38,8 @@ class ResumeController {
 					return el
 				})
 
-				const resumeAchievements = achievements.map(el => {
-					const newArray = {
-						name: el,
-						type: 'Resume',
-						resume_id
-					}
-	
-					return newArray
-				})
-
 				// Create new occupations
-				const createdOccupations = await Occupation.bulkCreate(occupations, { transaction: t })
-
-				// Assign occupation id
-				var occupationAchievements = []
-				for(let i = 0; i < occupations.length; i++) {
-					const eachOccupation = occupations[i]
-					const occupation_id = createdOccupations[i].id
-					const eachOccupationAchievements = eachOccupation.occupation_achievement.map(el => {
-						const newArray = {
-							name: el,
-							type: 'Occupation',
-							occupation_id
-						}
-						return newArray
-					})
-					occupationAchievements = [...occupationAchievements, ...eachOccupationAchievements]
-				}
-				
-				// Create achievement array
-				const achievementsData = [...resumeAchievements, ...occupationAchievements]
-
-				// Create new achievements
-				await Achievement.bulkCreate(achievementsData, { transaction: t, validate: true })
+				await Occupation.bulkCreate(occupations, { transaction: t })
 
 				// Create new educations
 				await Education.bulkCreate(educations, { transaction: t, validate: true })
@@ -94,30 +63,6 @@ class ResumeController {
 						attributes: {
 						exclude: [ 'createdAt', 'updatedAt']
 						},
-						include: [
-							{
-								as: 'occupation_achievements',
-								model: Achievement,
-								required: true,
-								attributes: {
-								exclude: [ 'createdAt', 'updatedAt']
-								},
-								where: {
-								type: 'Occupation'
-								}
-							},
-						]
-					},
-					{
-						as: 'achievements',
-						model: Achievement,
-						required: true,
-						attributes: {
-							exclude: [ 'createdAt', 'updatedAt']
-						},
-						where: {
-							type: 'Resume'
-						}
 					},
 					{
 						as: 'educations',
@@ -144,7 +89,7 @@ class ResumeController {
 		try {
 			const resumeList = await Resume.findAll({
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt']
+					exclude: [ 'createdAt', 'updatedAt', 'achievements']
 				},
 			})
 			res.status(200).json({
@@ -172,30 +117,6 @@ class ResumeController {
 						attributes: {
 							exclude: [ 'createdAt', 'updatedAt']
 					 	},
-						include: [
-							{
-							as: 'occupation_achievements',
-							model: Achievement,
-							required: true,
-							attributes: {
-								exclude: [ 'createdAt', 'updatedAt']
-							},
-							where: {
-								type: 'Occupation'
-							}
-							},
-						]
-					},
-					{
-						as: 'achievements',
-						model: Achievement,
-						required: true,
-						attributes: {
-							exclude: [ 'createdAt', 'updatedAt']
-						},
-						where: {
-							type: 'Resume'
-						}
 					},
 					{
 						as: 'educations',
@@ -228,50 +149,13 @@ class ResumeController {
 				phone_number,
 				linkedin_url,
 				portfolio_url,
-				occupations,
-				educations,
 				achievements,
 			} = req.body
-
 
 			const foundResume = await Resume.findByPk(resume_id, {
 				attributes: {
 					exclude: [ 'createdAt', 'updatedAt']
 				},
-				include:[
-					{
-						as: 'occupations',
-						model: Occupation,
-						required: true,
-						attributes: [id],
-						include: [
-							{
-							as: 'occupation_achievements',
-							model: Achievement,
-							required: true,
-							attributes: [id],
-							where: {
-								type: 'Occupation'
-							}
-							},
-						]
-					},
-					{
-						as: 'achievements',
-						model: Achievement,
-						required: true,
-						attributes: [id],
-						where: {
-							type: 'Resume'
-						}
-					},
-					{
-						as: 'educations',
-						model: Education,
-						required: true,
-						attributes: [id],
-					}
-				]
 			})
 
 			if(!foundResume) {
@@ -279,15 +163,24 @@ class ResumeController {
 					message: 'Resume not found'
 				})
 			} else {
-				const { achievements, occupations } = foundResume
-				let occupationAchievements = []
-				occupations.forEach(element => {
-					occupationAchievements = [...occupationAchievements, ...element.occupation_achievements]
-				});
-				const achievementsData = [...achievements, ...occupationAchievements]
+				const { id } = foundResume
+					const updatedResume = await Resume.update({
+						name,
+						email,
+						phone_number,
+						linkedin_url,
+						portfolio_url,
+						achievements,
+					}, {
+						returning: true,
+						where: {
+							id
+						}
+					});
+
 				res.status(200).json({
 					message: 'Successfully edited one resume',
-					resume: achievementsData
+					resume: updatedResume
 				})
 			}
 		} catch (error) {
