@@ -148,11 +148,20 @@ class ResumeController {
 			}
 
 		} catch (error) {
-			console.log(error, 'error')
-			res.status(500).json({
-				message: "Failed to create new resume",
-				error
-			})
+			if(error.name === 'SequelizeValidationError') {
+				const arrayOfErrors = error.errors.map(el => {
+					return el.message
+				})
+				res.status(400).json({
+					message: "Failed to create new resume",
+					error: arrayOfErrors
+				})
+			} else {
+				res.status(400).json({
+					message: "Failed to create new resume",
+					error
+				})
+			}
 		}	
 	}
 	static async getAllResumes(req, res, next) {
