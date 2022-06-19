@@ -1,5 +1,5 @@
 const { Resume, Education, Achievement, Occupation, sequelize } = require('../models')
-const { linkedInValidator } = require('../helpers/linkedInValidator');
+const { linkedInValidator, portfolioValidator } = require('../helpers/URLValidator');
 
 class ResumeController {
 	static async createNewResume(req, res, next) {
@@ -17,8 +17,9 @@ class ResumeController {
 
 
 			const isValidLinkedinURL = linkedInValidator(linkedin_url)
+			const isValidPortfolioURL = portfolioValidator(portfolio_url)
 
-			if(isValidLinkedinURL) {
+			if(isValidLinkedinURL && isValidPortfolioURL) {
 				// Start transaction
 				const result = await sequelize.transaction(async (t) => {
 					// Create new resume
@@ -136,7 +137,14 @@ class ResumeController {
 					resume: completeResume
 				})
 			} else {
-				throw new Error('Must be a valid LinkedIn URL')
+				const errorMessage = []
+				if(!isValidLinkedinURL) {
+					errorMessage.push('Must be a valid LinkedIn URL')
+				}
+				if (!isValidPortfolioURL) {
+					errorMessage.push('Must be a valid Portfolio URL')
+				}
+				throw errorMessage
 			}
 
 		} catch (error) {
