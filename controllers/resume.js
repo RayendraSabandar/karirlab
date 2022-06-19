@@ -1,3 +1,4 @@
+const transactionQuery = require('../helpers/queries/transaction');
 const { Resume, Education, Achievement, Occupation, sequelize } = require('../models')
 
 class ResumeController {
@@ -16,6 +17,7 @@ class ResumeController {
 
 			// Start transaction
 			const result = await sequelize.transaction(async (t) => {
+				const transaction = transactionQuery(t)
 				// Create new resume
 				const createdResume = await Resume.create({
 					name,
@@ -24,7 +26,7 @@ class ResumeController {
 					linkedin_url,
 					portfolio_url,
 					achievements
-				}, { transaction: t });
+				}, transaction);
 				const resume_id = createdResume.id
 
 				// Assign resume_id
@@ -39,10 +41,10 @@ class ResumeController {
 				})
 
 				// Create new occupations
-				await Occupation.bulkCreate(occupations, { transaction: t })
+				await Occupation.bulkCreate(occupations, transaction)
 
 				// Create new educations
-				await Education.bulkCreate(educations, { transaction: t, validate: true })
+				await Education.bulkCreate(educations, transaction)
 			
 				return createdResume;
 			});
