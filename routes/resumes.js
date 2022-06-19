@@ -1,5 +1,5 @@
 const ResumeController = require('../controllers/resume')
-
+const errorHandler = require('../middlewares/errorHandler')
 const routes = require('express').Router()
 
 // Create Resume

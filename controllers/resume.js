@@ -129,7 +129,7 @@ class ResumeController {
 								exclude: [ 'createdAt', 'updatedAt']
 							},
 						}
-					  ]
+					]
 				})
 
 				res.status(201).json({
@@ -148,39 +148,67 @@ class ResumeController {
 			}
 
 		} catch (error) {
-			if(error.name === 'SequelizeValidationError') {
-				const arrayOfErrors = error.errors.map(el => {
-					return el.message
-				})
-				res.status(400).json({
-					message: "Failed to create new resume",
-					error: arrayOfErrors
-				})
-			} else {
-				res.status(400).json({
-					message: "Failed to create new resume",
-					error
-				})
-			}
+			res.message = "Failed to create new resume"
+			next(error)
 		}	
 	}
 	static async getAllResumes(req, res, next) {
 		try {
 			const resumeList = await Resume.findAll({
 				attributes: {
-					exclude: ['createdAt', 'updatedAt'],
+					exclude: [ 'createdAt', 'updatedAt']
 				},
+				include:[
+					{
+					  model: Occupation,
+					  required: true,
+					  attributes: {
+						exclude: [ 'createdAt', 'updatedAt']
+					  },
+					  include: [
+						{
+						  model: Achievement,
+						  required: true,
+						  attributes: {
+							exclude: [ 'createdAt', 'updatedAt']
+						  },
+						  where: {
+							type: 'Occupation'
+						  }
+						},
+					  ]
+					},
+					{
+						model: Achievement,
+						required: true,
+						attributes: {
+							exclude: [ 'createdAt', 'updatedAt']
+						},
+						where: {
+							type: 'Resume'
+						}
+					},
+					{
+						model: Education,
+						required: true,
+						attributes: {
+							exclude: [ 'createdAt', 'updatedAt']
+						},
+					}
+				]
 			})
 			res.status(200).json({
 				message: "Successfully get all resumes",
 				resumeList
 			})
 		} catch (error) {
-			console.log(error, 'error')
-			res.status(500).json({
-				message: "Failed to get resumes",
-				error
-			})
+			res.message = "Failed to get resumes"
+			next(error)
+			// console.log(error, 'error')
+			// res.status(500).json({
+			// 	message: "Failed to get resumes",
+			// 	error
+			// })
 		}
   	}
 }

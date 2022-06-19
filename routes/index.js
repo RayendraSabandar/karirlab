@@ -4,6 +4,6 @@ const resumeRoutes = require('./resumes')
 
 routes.use('/resumes', resumeRoutes)
 
-// routes.use(errorHandler)
+routes.use(errorHandler)
 
 module.exports = routes
