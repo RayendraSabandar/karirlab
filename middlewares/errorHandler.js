@@ -41,6 +41,7 @@ const errorHandler = ((err, req, res, next) => {
 			break;
 
 		case 'ValidatorError': 
+			code = 400
 			detail = err.detail
 			error = {
 				missingKeys: err.missingKeys,
