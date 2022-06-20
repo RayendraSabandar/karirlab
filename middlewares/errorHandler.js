@@ -35,11 +35,7 @@ const errorHandler = ((err, req, res, next) => {
 			detail = err.name
 			break;
 
-		case 'ReferenceError':
-			detail = err.message
-			break;
-
-		case 'Error':
+		case 'ReferenceError' || 'Error':
 			detail = err.message
 			break;
 
