@@ -6,7 +6,7 @@
   "scripts": {
     "create-test-db": "NODE_ENV=test npx sequelize-cli db:create",
     "migrate-test-db": "NODE_ENV=test npx sequelize-cli db:migrate",
-    "test": "NODE_ENV=test jest --forceExit --maxWorkers=1 --detectOpenHandles --verbose --coverage",
+    "test": "NODE_ENV=test jest --forceExit --maxWorkers=1 --verbose --coverage",
     "dev": "nodemon bin/www"
   },
   "repository": {
