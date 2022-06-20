@@ -157,8 +157,6 @@ class ResumeController {
 					}
 				]
 			})
-			console.log(resume_id)
-			console.log(foundResume)
 
 			if(!foundResume) {
 				res.status(404).json({
