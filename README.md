@@ -18,7 +18,7 @@
     npm run dev
     ``` 
 - Open your postman application
-- Import `JSON` from `postmanData/karirlab.postman_collection`
+- Import `JSON` file from `postmanData/karirlab.postman_collection`
 - Try to hit one of the five available endpoints
 
 <br>
@@ -29,3 +29,6 @@
 - GET /find-one-resume/:resume_id
 - PUT /edit-one-resume/:resume_id
 - DELETE /delete-one-resume/:resume_id
+
+# Keputusan teknis utama yang saya buat
+# Komentar relevan tentang hasil anda

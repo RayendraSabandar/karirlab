@@ -1,6 +1,8 @@
 const app = require('../app.js')
 const port = process.env.PORT
 
-app.listen(port, () => [
-    console.log(`app running on port ${port}`)
-])
+app.listen(port, () => {
+    console.log(`Karirlab server running on port ${port}`)
+    console.log(`Open your postman application and run localhost://${port}/resumes/*yourselectedendpoint*`)
+    console.log(`Endpoint options can be seen in routes/resumes.js`)
+})

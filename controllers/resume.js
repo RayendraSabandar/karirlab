@@ -1,4 +1,5 @@
 const editChild = require('../helpers/loops/editChild');
+const keyValidator = require('../helpers/validators/keyMappingValueValidator');
 const { Resume, Education, Occupation, sequelize } = require('../models')
 const attributes = {
 	exclude: [ 'createdAt', 'updatedAt']
@@ -40,17 +41,32 @@ class ResumeController {
 
 				if(occupations) {
 					occupations.map(el => {
+						const isValidKeys = keyValidator('occupation', el)
+						if(isValidKeys != true) throw {
+							index: occupations.indexOf(el),
+							missingKeys: isValidKeys,
+							detail: 'Missing keys',
+							name: 'ValidatorError'
+						}
+
 						el.resume_id = resume_id
 						return el
 					})
 
 					// Create new occupations
 					await Occupation.bulkCreate(occupations, transaction)
-
 				}
 
 				if(educations) {
 					educations.map(el => {
+						const isValidKeys = keyValidator('education', el)
+						if(isValidKeys != true) throw {
+							index: educations.indexOf(el),
+							missingKeys: isValidKeys,
+							detail: 'Missing keys',
+							name: 'ValidatorError'
+						}
+
 						el.resume_id = resume_id
 						return el
 					
