@@ -4,7 +4,7 @@ const errorHandler = ((err, req, res, next) => {
 	let error = err
 	const { message } = res
 
-	// console.log(error)
+	// console.log(error.name)
   
     switch (err.name) {
     	case 'SequelizeValidationError':
@@ -42,6 +42,13 @@ const errorHandler = ((err, req, res, next) => {
 		case 'Error':
 			detail = err.message
 			break;
+
+		case 'ValidatorError': 
+			detail = err.detail
+			error = {
+				missingKeys: err.missingKeys,
+				index: err.index
+			}
     }
   
     res.status(code).json({
