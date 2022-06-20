@@ -13,6 +13,7 @@ const errorHandler = ((err, req, res, next) => {
 			})
 			error = sequelizeValidationError
 			detail = err.name
+			code = 400
         	break;
 		
 		case 'SequelizeEagerLoadingError':
