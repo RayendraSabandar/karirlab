@@ -1,10 +1,40 @@
-# karirlab
+# Karirlab Take Home Assignment
 
+# Overview
+### Dear engineers, I have finished my take home assignment
+### For this project, my tech stack are:
+- Javascript (Programming Language)
+- PostgreSQL (Database)
+- Sequelize (ORM)
+- Express (Web Application Framework)
+- Jest & Supertest (Testing Framework)
+## Main Technical Decisions & Comments
+```
+I Created relational database in this project hence my use of postgreSQL.
+- Resumes has many Educations
+- Resumes has many Occupations
+
+I first considered that Achievements belongs to Resumes and Occupations but considering achievements are only an individual strings, I decided not to. 
+
+I would say, for the long run, achievement should have it's own table and relation as I've mentioned above because in the later time, achievement would probably has many other fields such as date, detail, location, ect.
+With that being said, I would then make individual tables able to be accessed individually. If you want to edit a resume, you'd have to edit achievement, occupation, and education individually, unlike the current karirlab website, so that each of them would be one microservice.
+
+I created these endpoints to have the same body structure whether it's to create or edit. That was to make it easy for front-end engineers to use this API, although it made me (personally) harder to make a modularized functions. 
+If you create a new resume, one endpoint and static function would create a new resume, education, and application
+I would say it's better to create each of them in a different static function but that would mean either multiple endpoints to hit or one orchestrator endpoint that would hit each microservices endpoints
+
+I try my best to make any variables or function that are going to be used more than once to be modularized so that each file won't be filled with the same lines of codes.
+Along with user-friendly variable names, file names, and folder structures, I hope I have made an organized and clean-coded repo
+
+I would say my current project is not the best that it could have been, so your inputs would be highly appriciated.
+ ```
 # How to Run the Project
 - Install dependencies
     ```
     npm i
     ```
+- Open config/config.json
+- Change `username` and `password` according to your `postgres` application
 - Create database in postgres
     ```
     sequelize db:create
@@ -22,6 +52,17 @@
 - Try to hit one of the five available endpoints
 
 <br>
+
+# Testing
+- Create database and migrate 
+    ```
+    npm run create-test-db
+    npm run migrate-test-db
+    ```
+- Run test
+    ```
+    npm run test
+    ```
 
 # Endpoints
 - POST /create-new-resume
@@ -126,16 +167,8 @@ _Response (400 - Bad Request)_ [Failed]
     "error": [
         "Must enter a name",
         "Must enter an email address",
-        "Must enter a phone number"
-    ]
-}
-```
-_Response (400 - Bad Request)_ [Failed]
-```
-{
-    "message": "Failed to create new resume",
-    "detail": "SequelizeValidationError",
-    "error": [
+        "Must enter a phone number",
+        "Phone number must start with +62 or 0 and have at max 13 digits",
         "Must enter a valid LinkedIn URL; Remove the key if you didn't want to put a valid URL",
         "Must enter a valid Portfolio URL; Remove the key if you didn't want to put a valid URL"
     ]
@@ -189,7 +222,6 @@ _Response (400 - Bad Request)_ [Failed]
     }
 }
 ```
-
 
 <br>
 
@@ -508,6 +540,3 @@ _Response (404 - Not Found)_ [Failed]
     "message": "Resume not found"
 }
 ```
-
-# Keputusan teknis utama yang saya buat
-# Komentar relevan tentang hasil anda
