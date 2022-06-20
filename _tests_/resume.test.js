@@ -124,6 +124,66 @@ describe("Resume Routes Test", () => {
         "achievements": ["Juara 1 Kompetisi Gulat", "Juara 1 Lomba Parkour"]
     }
 
+    const invalidLinkedInURLInputResume = {
+        "name": "Peter Parker",
+        "email": "peter.parker@gmail.com",
+        "phone_number": "+6281230493830",
+        "linkedin_url": "https://www.linkedin.com/in/peter_parker",
+        "portfolio_url": "https://www.peterparker.com",
+        "occupations": [
+            {
+                "company_name": "Avengers",
+                "occupation_position": "Spider-Man",
+                "occupation_start": "2018-04-26T00:00:00+07:00",
+                "occupation_end": "2021-12-17T00:00:00+07:00",
+                "occupation_status": "Full Time",
+                "occupation_achievement": ["Avengers Termuda"]
+            }
+        ],
+        "educations": [
+            {
+                "education_name": "Midtown High School",
+                "education_degree": "SMA",
+                "education_faculty": "Ilmu Pengetahuan Alam",
+                "education_city": "Queens",
+                "education_start": "2016-04-21T00:00:00+07:00",
+                "education_end": "2021-12-17T00:00:00+07:00",
+                "education_score": 3.95
+            }
+        ],
+        "achievements": ["Juara 1 Kompetisi Gulat", "Juara 1 Lomba Parkour"]
+    }
+
+    const invalidPortfolioURLInputResume = {
+        "name": "Peter Parker",
+        "email": "peter.parker@gmail.com",
+        "phone_number": "+6281230493830",
+        "linkedin_url": "https://www.linkedin.com/in/peter_parker",
+        "portfolio_url": "https://www.peterparker.comasdf",
+        "occupations": [
+            {
+                "company_name": "Avengers",
+                "occupation_position": "Spider-Man",
+                "occupation_start": "2018-04-26T00:00:00+07:00",
+                "occupation_end": "2021-12-17T00:00:00+07:00",
+                "occupation_status": "Full Time",
+                "occupation_achievement": ["Avengers Termuda"]
+            }
+        ],
+        "educations": [
+            {
+                "education_name": "Midtown High School",
+                "education_degree": "SMA",
+                "education_faculty": "Ilmu Pengetahuan Alam",
+                "education_city": "Queens",
+                "education_start": "2016-04-21T00:00:00+07:00",
+                "education_end": "2021-12-17T00:00:00+07:00",
+                "education_score": 3.95
+            }
+        ],
+        "achievements": ["Juara 1 Kompetisi Gulat", "Juara 1 Lomba Parkour"]
+    }
+
     const noPrimaryDataInputResume = {
         "occupations": [
             {
@@ -168,6 +228,47 @@ describe("Resume Routes Test", () => {
                 "education_start": "2016-04-21T00:00:00+07:00",
                 "education_end": "2021-12-17T00:00:00+07:00",
                 "education_score": 3.95
+            }
+        ],
+        "achievements": ["Juara 1 Kompetisi Gulat", "Juara 1 Lomba Parkour"]
+    }
+
+    const deleteOccupations = {
+        "name": "Peter Parker",
+        "email": "peter.parker@gmail.com",
+        "phone_number": "+6281230493830",
+        "linkedin_url": "https://www.linkedin.com/in/peter-parker",
+        "portfolio_url": "https://www.peterparker.com",
+        "educations": [
+            {
+                "id": 1,
+                "education_name": "Midtown High School",
+                "education_degree": "SMA",
+                "education_faculty": "Ilmu Pengetahuan Alam",
+                "education_city": "Queens",
+                "education_start": "2016-04-21T00:00:00+07:00",
+                "education_end": "2021-12-17T00:00:00+07:00",
+                "education_score": 3.95
+            }
+        ],
+        "achievements": ["Juara 1 Kompetisi Gulat", "Juara 1 Lomba Parkour"]
+    }
+
+    const deleteEducations = {
+        "name": "Peter Parker",
+        "email": "peter.parker@gmail.com",
+        "phone_number": "+6281230493830",
+        "linkedin_url": "https://www.linkedin.com/in/peter-parker",
+        "portfolio_url": "https://www.peterparker.com",
+        "occupations": [
+            {
+                "id": 1,
+                "company_name": "Avengers",
+                "occupation_position": "Spider-Man",
+                "occupation_start": "2018-04-26T00:00:00+07:00",
+                "occupation_end": "2021-12-17T00:00:00+07:00",
+                "occupation_status": "Full Time",
+                "occupation_achievement": ["Avengers Termuda"]
             }
         ],
         "achievements": ["Juara 1 Kompetisi Gulat", "Juara 1 Lomba Parkour"]
@@ -368,6 +469,36 @@ describe("Resume Routes Test", () => {
             });
     });
 
+    test("400 Failed create a new resume with invalid linkedin URL - should return array of error messages", (done) => {
+        request(app)
+            .post(`${baseURL}/resumes/create-new-resume`)
+            .send(invalidLinkedInURLInputResume)
+            .then((response) => {
+                const { body, status } = response;
+                expect(status).toBe(400);
+                expect(body).toHaveProperty("message", "Failed to create new resume");
+                expect(body).toHaveProperty("detail", "SequelizeValidationError");
+                expect(body).toHaveProperty("error", expect.any(Array))
+                expect(createResumeErrors).toEqual(expect.arrayContaining(body.error))
+                done()
+            });
+    });
+
+    test("400 Failed create a new resume with invalid portfolio URL - should return array of error messages", (done) => {
+        request(app)
+            .post(`${baseURL}/resumes/create-new-resume`)
+            .send(invalidPortfolioURLInputResume)
+            .then((response) => {
+                const { body, status } = response;
+                expect(status).toBe(400);
+                expect(body).toHaveProperty("message", "Failed to create new resume");
+                expect(body).toHaveProperty("detail", "SequelizeValidationError");
+                expect(body).toHaveProperty("error", expect.any(Array))
+                expect(createResumeErrors).toEqual(expect.arrayContaining(body.error))
+                done()
+            });
+    });
+
     test("400 Failed create a new resume with no primary data - should return array of error messages", (done) => {
         request(app)
             .post(`${baseURL}/resumes/create-new-resume`)
@@ -502,6 +633,48 @@ describe("Resume Routes Test", () => {
                 expect(resume).toHaveProperty('linkedin_url', "https://www.linkedin.com/in/peter-parker");
                 expect(resume).toHaveProperty('portfolio_url', "https://www.peterparker.com");
                 expect(resume).toHaveProperty('achievements', validInputEditResume.achievements);
+                done()
+            })
+    })
+    
+    test("200 Success edit one resume (delete occupations) - should return a resume object", (done) => {
+        request(app)
+            .put(`${baseURL}/resumes/edit-one-resume/${resume_id}`)
+            .send(deleteOccupations)
+            .then((response) => {
+                const { body, status } = response;
+                const { resume } = body
+                expect(status).toBe(200);
+                expect(body).toHaveProperty("message", "Successfully edited one resume");
+                expect(resume).toHaveProperty('id', expect.any(Number))
+                expect(resume).toHaveProperty("name", "Peter Parker");
+                expect(resume).toHaveProperty('email', "peter.parker@gmail.com");
+                expect(resume).toHaveProperty('phone_number', "+6281230493830");
+                expect(resume).toHaveProperty('linkedin_url', "https://www.linkedin.com/in/peter-parker");
+                expect(resume).toHaveProperty('portfolio_url', "https://www.peterparker.com");
+                expect(resume).toHaveProperty('achievements', validInputEditResume.achievements);
+                expect(resume).toHaveProperty('educations', expect.any(Array));
+                done()
+            })
+    })
+
+    test("200 Success edit one resume (delete educations) - should return a resume object", (done) => {
+        request(app)
+            .put(`${baseURL}/resumes/edit-one-resume/${resume_id}`)
+            .send(deleteEducations)
+            .then((response) => {
+                const { body, status } = response;
+                const { resume } = body
+                expect(status).toBe(200);
+                expect(body).toHaveProperty("message", "Successfully edited one resume");
+                expect(resume).toHaveProperty('id', expect.any(Number))
+                expect(resume).toHaveProperty("name", "Peter Parker");
+                expect(resume).toHaveProperty('email', "peter.parker@gmail.com");
+                expect(resume).toHaveProperty('phone_number', "+6281230493830");
+                expect(resume).toHaveProperty('linkedin_url', "https://www.linkedin.com/in/peter-parker");
+                expect(resume).toHaveProperty('portfolio_url', "https://www.peterparker.com");
+                expect(resume).toHaveProperty('achievements', validInputEditResume.achievements);
+                expect(resume).toHaveProperty('occupations', expect.any(Array));
                 done()
             })
     })
