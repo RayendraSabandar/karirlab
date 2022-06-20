@@ -412,7 +412,7 @@ describe("Resume Routes Test", () => {
 
     afterAll( async() => {
         await Resume.destroy({ where : {}, cascade : true, truncate: true, restartIdentity : true})
-        await new Promise(resolve => setTimeout(() => resolve(''), 1000));
+        await new Promise(resolve => setTimeout(() => resolve(), 1000));
     });
 
     beforeEach(() => {
