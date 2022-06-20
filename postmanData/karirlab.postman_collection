@@ -58,7 +58,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Peter Parker\",\r\n    \"email\": \"peter.parker@gmail.com\",\r\n    \"phone_number\": \"+6281230493830\",\r\n    \"linkedin_url\": \"https://www.linkedin.com/in/peter_parker\",\r\n    \"portfolio_url\": \"https://www.peterparker.com\",\r\n    \"occupations\": [\r\n        {\r\n            \"company_name\": \"Avengers\",\r\n            \"occupation_position\": \"Spider-Man\",\r\n            \"occupation_start\": \"2018-04-26T00:00:00+07:00\",\r\n            \"occupation_end\": \"2021-12-17T00:00:00+07:00\",\r\n            \"occupation_status\": \"Full Time\",\r\n            \"occupation_achievement\": [\"Avengers Termuda\"]\r\n        }\r\n    ],\r\n    \"educations\": [\r\n        {\r\n            \"education_name\": \"Midtown High School\",\r\n            \"education_degree\": \"SMA\",\r\n            \"education_faculty\": \"Ilmu Pengetahuan Alam\",\r\n            \"education_city\": \"Queens\",\r\n            \"education_start\": \"2016-04-21T00:00:00+07:00\",\r\n            \"education_end\": \"2021-12-17T00:00:00+07:00\",\r\n            \"education_score\": 3.95\r\n        }\r\n    ],\r\n    \"achievements\": [\"Juara 1 Kompetisi Gulat\", \"Juara 1 Lomba Parkour\"]\r\n}",
+					"raw": "{\r\n    \"name\": \"Peter Parker\",\r\n    \"email\": \"peter.parker@gmail.com\",\r\n    \"phone_number\": \"+6281230493830\",\r\n    \"linkedin_url\": \"https://www.linkedin.com/in/peter-parker\",\r\n    \"portfolio_url\": \"https://www.peterparker.com\",\r\n    \"occupations\": [\r\n        {\r\n            \"company_name\": \"Avengers\",\r\n            \"occupation_position\": \"Spider-Man\",\r\n            \"occupation_start\": \"2018-04-26T00:00:00+07:00\",\r\n            \"occupation_end\": \"2021-12-17T00:00:00+07:00\",\r\n            \"occupation_status\": \"Full Time\",\r\n            \"occupation_achievement\": [\"Avengers Termuda\"]\r\n        }\r\n    ],\r\n    \"educations\": [\r\n        {\r\n            \"education_name\": \"Midtown High School\",\r\n            \"education_degree\": \"SMA\",\r\n            \"education_faculty\": \"Ilmu Pengetahuan Alam\",\r\n            \"education_city\": \"Queens\",\r\n            \"education_start\": \"2016-04-21T00:00:00+07:00\",\r\n            \"education_end\": \"2021-12-17T00:00:00+07:00\",\r\n            \"education_score\": 3.95\r\n        }\r\n    ],\r\n    \"achievements\": [\"Juara 1 Kompetisi Gulat\", \"Juara 1 Lomba Parkour\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -89,7 +89,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Peter Parker\",\r\n    \"email\": \"parker@gmail.com\",\r\n    \"phone_number\": \"+6281230493830\",\r\n    \"linkedin_url\": \"https://www.linkedin.com/in/peter_parker\",\r\n    \"portfolio_url\": \"https://www.peterparker.com\",\r\n    \"occupations\": [\r\n        {\r\n            \"id\": 1,\r\n            \"company_name\": \"Avengers\",\r\n            \"occupation_position\": \"Spider-Man\",\r\n            \"occupation_start\": \"2018-04-26T00:00:00+07:00\",\r\n            \"occupation_end\": \"2021-12-17T00:00:00+07:00\",\r\n            \"occupation_status\": \"Full Time\",\r\n            \"occupation_achievement\": [\"Avengers Termuda\"]\r\n        },\r\n        {\r\n            \"company_name\": \"Iluminati\",\r\n            \"occupation_position\": \"Spider-Man Noir\",\r\n            \"occupation_start\": \"2018-04-26T00:00:00+07:00\",\r\n            \"occupation_end\": \"2021-12-17T00:00:00+07:00\",\r\n            \"occupation_status\": \"Full Time\",\r\n            \"occupation_achievement\": [\"Avengers Termuda\"]\r\n        }\r\n    ],\r\n    \"educations\": [\r\n        {\r\n            \"id\": 1,\r\n            \"education_name\": \"Midtown High School\",\r\n            \"education_degree\": \"SMA\",\r\n            \"education_faculty\": \"Ilmu Pengetahuan Alam\",\r\n            \"education_city\": \"Queens\",\r\n            \"education_start\": \"2016-04-21T00:00:00+07:00\",\r\n            \"education_end\": \"2021-12-17T00:00:00+07:00\",\r\n            \"education_score\": 3.95\r\n        }\r\n    ],\r\n    \"achievements\": [\"Juara 1 Kompetisi Gulat\", \"Juara 1 Lomba Parkour\"]\r\n}",
+					"raw": "{\r\n    \"name\": \"Peter Parker\",\r\n    \"email\": \"parker@gmail.com\",\r\n    \"phone_number\": \"+6281230493830\",\r\n    \"linkedin_url\": \"https://www.linkedin.com/in/peter-parker\",\r\n    \"portfolio_url\": \"https://www.peterparker.com\",\r\n    \"occupations\": [\r\n        {\r\n            \"id\": 1,\r\n            \"company_name\": \"Avengers\",\r\n            \"occupation_position\": \"Spider-Man\",\r\n            \"occupation_start\": \"2018-04-26T00:00:00+07:00\",\r\n            \"occupation_end\": \"2021-12-17T00:00:00+07:00\",\r\n            \"occupation_status\": \"Full Time\",\r\n            \"occupation_achievement\": [\"Avengers Termuda\"]\r\n        }\r\n    ],\r\n    \"educations\": [\r\n        {\r\n            \"id\": 1,\r\n            \"education_name\": \"Midtown High School\",\r\n            \"education_degree\": \"SMA\",\r\n            \"education_faculty\": \"Ilmu Pengetahuan Alam\",\r\n            \"education_city\": \"Queens\",\r\n            \"education_start\": \"2016-04-21T00:00:00+07:00\",\r\n            \"education_end\": \"2021-12-17T00:00:00+07:00\",\r\n            \"education_score\": 3.95\r\n        }\r\n    ],\r\n    \"achievements\": [\"Juara 1 Kompetisi Gulat\", \"Juara 1 Lomba Parkour\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -97,7 +97,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/development/api/v1/resumes/edit-one-resume/1",
+					"raw": "localhost:3000/development/api/v1/resumes/edit-one-resume/2",
 					"host": [
 						"localhost"
 					],
@@ -108,7 +108,7 @@
 						"v1",
 						"resumes",
 						"edit-one-resume",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -120,7 +120,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/development/api/v1/resumes/delete-one-resume/2",
+					"raw": "localhost:3000/development/api/v1/resumes/delete-one-resume/1",
 					"host": [
 						"localhost"
 					],
@@ -131,7 +131,7 @@
 						"v1",
 						"resumes",
 						"delete-one-resume",
-						"2"
+						"1"
 					]
 				}
 			},
