@@ -14,16 +14,24 @@ I Created relational database in this project hence my use of postgreSQL.
 - Resumes has many Educations
 - Resumes has many Occupations
 
-I first considered that Achievements belongs to Resumes and Occupations but considering achievements are only an individual strings, I decided not to. 
+I first considered that Achievements belongs to Resumes and Occupations
+but considering achievements are only an individual strings, I decided not to. 
 
-I would say, for the long run, achievement should have it's own table and relation as I've mentioned above because in the later time, achievement would probably has many other fields such as date, detail, location, ect.
-With that being said, I would then make individual tables able to be accessed individually. If you want to edit a resume, you'd have to edit achievement, occupation, and education individually, unlike the current karirlab website, so that each of them would be one microservice.
+I would say, for the long run, achievement should have it's own table and relation as I've mentioned above
+because in the later time, achievement would probably has many other fields such as date, detail, location, ect.
+With that being said, I would then make individual tables able to be accessed individually. 
+If you want to edit a resume, you'd have to edit achievement, occupation, and education individually,
+unlike the current karirlab website, so that each of them would be one microservice.
 
-I created these endpoints to have the same body structure whether it's to create or edit. That was to make it easy for front-end engineers to use this API, although it made me (personally) harder to make a modularized functions. 
+I created these endpoints to have the same body structure whether it's to create or edit.
+That was to make it easy for front-end engineers to use this API,
+although it made me (personally) harder to make a modularized functions. 
 If you create a new resume, one endpoint and static function would create a new resume, education, and application
-I would say it's better to create each of them in a different static function but that would mean either multiple endpoints to hit or one orchestrator endpoint that would hit each microservices endpoints
+I would say it's better to create each of them in a different static function 
+but that would mean either multiple endpoints to hit or one orchestrator endpoint that would hit each microservices endpoints
 
-I try my best to make any variables or function that are going to be used more than once to be modularized so that each file won't be filled with the same lines of codes.
+I try my best to make any variables or function that are going to be used more than once to be modularized
+so that each file won't be filled with the same lines of codes.
 Along with user-friendly variable names, file names, and folder structures, I hope I have made an organized and clean-coded repo
 
 I would say my current project is not the best that it could have been, so your inputs would be highly appriciated.
