@@ -112,7 +112,7 @@ class ResumeController {
 			const foundResume = await Resume.findByPk(resume_id, findByPkQuery)
 
 			if(!foundResume) {
-				return res.status(200).json({
+				return res.status(404).json({
 					message: "Resume not found",
 				})
 			}
@@ -157,8 +157,6 @@ class ResumeController {
 					}
 				]
 			})
-			console.log(resume_id)
-			console.log(foundResume)
 
 			if(!foundResume) {
 				res.status(404).json({

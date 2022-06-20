@@ -13,12 +13,8 @@ const errorHandler = ((err, req, res, next) => {
 			})
 			error = sequelizeValidationError
 			detail = err.name
+			code = 400
         	break;
-		
-		case 'SequelizeEagerLoadingError':
-			code = 400;
-			detail = err.message;
-			break;
 		
 		case 'AggregateError':
 			code = 400
@@ -30,16 +26,8 @@ const errorHandler = ((err, req, res, next) => {
 			detail = err.errors[0].name
 			break;
 
-		case 'TypeError':
-			error = err.message
-			detail = err.name
-			break;
-
-		case 'ReferenceError' || 'Error':
-			detail = err.message
-			break;
-
 		case 'ValidatorError': 
+			code = 400
 			detail = err.detail
 			error = {
 				missingKeys: err.missingKeys,
