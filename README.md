@@ -17,7 +17,7 @@
     ```
     npm run dev
     ``` 
-- Open your postman application
+- Open your `postman` application
 - Import `JSON` file from `postmanData/karirlab.postman_collection`
 - Try to hit one of the five available endpoints
 
